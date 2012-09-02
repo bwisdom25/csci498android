@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 public class MainActivity extends Activity {
 
@@ -27,11 +28,15 @@ public class MainActivity extends Activity {
 
 		save.setOnClickListener(onSave);
 		
-		ListView list = (ListView) findViewById(R.id.restaurants);
+		
+		Spinner restSpinner = (Spinner) findViewById(R.id.restaurants);
 		
 		adapter = new ArrayAdapter<Restaurant>(this,
-				android.R.layout.simple_expandable_list_item_1, model);
-		list.setAdapter(adapter);
+				android.R.layout.simple_spinner_item, model);
+		
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		restSpinner.setAdapter(adapter);
 
 	}
 
