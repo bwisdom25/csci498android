@@ -2,26 +2,29 @@ package edu.mines.csci498.bwisdom.lunchlist;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 public class MainActivity extends Activity {
 
 	Restaurant r = new Restaurant();
-
+	private static int ALOT = 99;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
 
-		Button save = (Button) findViewById(R.id.save);
-
-		save.setOnClickListener(onSave);
-
+		RadioGroup radios = new RadioGroup(this); 
+		
+		for(int i=0; i < ALOT ; ++i){
+			RadioButton r1 = new RadioButton(this);
+			r1.setText("RadioButton:"+i);
+			radios.addView(r1);
+		}
+		
+		setContentView(radios);
 	}
+	/*
 
 	private View.OnClickListener onSave = new View.OnClickListener() {
 		public void onClick(View v) {
@@ -32,7 +35,6 @@ public class MainActivity extends Activity {
 			r.setAddress(address.getText().toString());
 			
 			RadioGroup types = (RadioGroup) findViewById(R.id.types);
-			
 			switch(types.getCheckedRadioButtonId()){
 				case R.id.sit_down:
 					r.setType("sit_down");
@@ -43,7 +45,11 @@ public class MainActivity extends Activity {
 				case R.id.delivery:
 					r.setType("delivery");
 					break;
+					
 			}	
+			
 		}
+		
 	};
+	*/
 }

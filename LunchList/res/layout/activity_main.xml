@@ -14,21 +14,6 @@
         <EditText android:id="@+id/addr" />
     </TableRow>
 
-    <TableRow>
-        <TextView android:text="Type:" />
-        <RadioGroup android:id="@+id/types">            
-            <RadioButton android:id="@+id/takout"
-                android:text="Take-Out"
-                android:checked="true"
-            />
-            <RadioButton android:id="@+id/sit_down"
-                android:text="Sit-Down"
-            />
-            <RadioButton android:id="@+id/delivery"
-                android:text="Delivery"
-            />
-        </RadioGroup>
-    </TableRow>
 
     <Button
         android:id="@+id/save"
