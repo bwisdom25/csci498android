@@ -21,7 +21,7 @@
                 android:text="Take-Out"
                 android:checked="true"
             />
-            <RadioButton android:id="@+id/sid_down"
+            <RadioButton android:id="@+id/sit_down"
                 android:text="Sit-Down"
             />
             <RadioButton android:id="@+id/delivery"
