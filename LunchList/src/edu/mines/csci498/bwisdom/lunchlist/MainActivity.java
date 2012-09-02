@@ -1,8 +1,10 @@
 package edu.mines.csci498.bwisdom.lunchlist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +13,8 @@ import android.widget.RadioGroup;
 public class MainActivity extends Activity {
 
 	Restaurant r = new Restaurant();
-
+	List<Restaurant> model = new ArrayList<Restaurant>();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,6 +28,7 @@ public class MainActivity extends Activity {
 
 	private View.OnClickListener onSave = new View.OnClickListener() {
 		public void onClick(View v) {
+			Restaurant r = new Restaurant();	
 			EditText name = (EditText) findViewById(R.id.name);
 			EditText address = (EditText) findViewById(R.id.addr);
 
@@ -44,6 +48,7 @@ public class MainActivity extends Activity {
 					r.setType("delivery");
 					break;
 			}	
+			model.add(r); //I think this will happen next 
 		}
 	};
 }
