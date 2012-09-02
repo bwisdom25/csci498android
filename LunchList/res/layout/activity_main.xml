@@ -15,10 +15,12 @@
 	        <TextView android:text="Name:" />
 	        <EditText android:id="@+id/name" />
 	    </TableRow>
-	
+		    
 	    <TableRow>
 	        <TextView android:text="Address:" />
-	        <EditText android:id="@+id/addr" />
+	        <AutoCompleteTextView android:id="@+id/addr"
+	            android:textColor="#000000"
+	            android:dropDownSelector="#000000" />
 	    </TableRow>
 	
 	    <TableRow>
