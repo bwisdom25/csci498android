@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,10 +107,13 @@ public class MainActivity extends Activity {
 
 			if (r.getType().equals("sit_down")) {
 				icon.setImageResource(R.drawable.sit_down);
+				name.setTextColor(Color.BLACK);
 			} else if (r.getType().equals("takeout")) {
 				icon.setImageResource(R.drawable.takeout);
+				name.setTextColor(Color.GREEN);
 			} else {
 				icon.setImageResource(R.drawable.delivery);
+				name.setTextColor(Color.CYAN);
 			}
 		}
 		
