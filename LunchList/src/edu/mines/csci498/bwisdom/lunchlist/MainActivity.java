@@ -69,31 +69,49 @@ public class MainActivity extends Activity {
 			super(MainActivity.this, android.R.layout.simple_list_item_1,model);
 		}
 		
-		public View getView(int position, View convertView, ViewGroup parent){
+		public View getView(int position, View convertView, ViewGroup parent) {
 			View row = convertView;
-			
-			if(row==null){
+			RestaurantHolder holder = null;
+
+			if (row == null) {
 				LayoutInflater inflater = getLayoutInflater();
-				
-				row = inflater.inflate(R.layout.row, null);
+
+				row = inflater.inflate(R.layout.row, parent, false);
+				holder = new RestaurantHolder(row);
+				row.setTag(holder);
+			} else {
+				holder = (RestaurantHolder) row.getTag();
 			}
-			
-			Restaurant r = model.get(position);
-			
-			((TextView)row.findViewById(R.id.title)).setText(r.getName());
-			((TextView)row.findViewById(R.id.address)).setText(r.getAddress());
-			
-			ImageView icon = (ImageView) row.findViewById(R.id.icon);
-			
-			if(r.getType().equals("sit_down")){
-				icon.setImageResource(R.drawable.sit_down);
-			}else if(r.getType().equals("takeout")){
-				icon.setImageResource(R.drawable.takeout);
-			}else{
-				icon.setImageResource(R.drawable.delivery);
-			}
-			
+
+			holder.populateFrom(model.get(position));
+
 			return row;
 		}
+	}
+	
+	static class RestaurantHolder{
+		private TextView name = null;
+		private TextView address = null;
+		private ImageView icon = null; 
+		
+		RestaurantHolder(View row) {
+			name = (TextView) row.findViewById(R.id.title);
+			address = (TextView) row.findViewById(R.id.address);
+			icon = (ImageView) row.findViewById(R.id.icon);
+		}
+		
+		void populateFrom(Restaurant r) {
+			name.setText(r.getName());
+			address.setText(r.getAddress());
+
+			if (r.getType().equals("sit_down")) {
+				icon.setImageResource(R.drawable.sit_down);
+			} else if (r.getType().equals("takeout")) {
+				icon.setImageResource(R.drawable.takeout);
+			} else {
+				icon.setImageResource(R.drawable.delivery);
+			}
+		}
+		
 	}
 }
