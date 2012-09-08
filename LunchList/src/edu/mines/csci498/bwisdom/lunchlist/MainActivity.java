@@ -3,17 +3,17 @@ package edu.mines.csci498.bwisdom.lunchlist;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Bundle;
-import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TabActivity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,22 +23,28 @@ import android.widget.TextView;
 
 public class MainActivity extends TabActivity {
 
+	private static final int DATE_DIALOG_ID = 69;
 	Restaurant r = new Restaurant();
 	List<Restaurant> model = new ArrayList<Restaurant>();
 	RestaurantAdapter adapter = null; 
 	EditText name = null;
 	EditText address = null;
 	RadioGroup types = null;
-	
+	String dateString=null;
+	int year=1989;
+	int month=10;
+	int day=2;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
 		name = (EditText)findViewById(R.id.name);
 		address = (EditText)findViewById(R.id.addr);
 		types = (RadioGroup)findViewById(R.id.types);
-		
+	
+        
 		Button save = (Button) findViewById(R.id.save);
 
 		save.setOnClickListener(onSave);
@@ -74,6 +80,7 @@ public class MainActivity extends TabActivity {
 			name.setText(r.getName());
 			address.setText(r.getAddress());
 			
+			
 			if(r.getType().equals("sit_down")){
 				types.check(R.id.sit_down);
 			}else if(r.getType().equals("takeout")){
@@ -87,12 +94,36 @@ public class MainActivity extends TabActivity {
 	};
 	private View.OnClickListener onSave = new View.OnClickListener() {
 		public void onClick(View v) {
+			
+			
+			showDialog(DATE_DIALOG_ID);
+			 
+		}
+	};
+	
+	@Override
+	protected Dialog onCreateDialog(int id){
+		switch(id){
+		case DATE_DIALOG_ID:
+			
+			return new DatePickerDialog(this, datePickListener, year, month, day);
+		}
+		return null;
+	}
+	
+	private DatePickerDialog.OnDateSetListener datePickListener = new DatePickerDialog.OnDateSetListener() {
+
+		@Override
+		public void onDateSet(DatePicker view, int selectedYear, int selectedMonth,
+				int selectedDay) {		
+			
 			Restaurant r = new Restaurant();	
 			EditText name = (EditText) findViewById(R.id.name);
 			EditText address = (EditText) findViewById(R.id.addr);
 
 			r.setName(name.getText().toString());
 			r.setAddress(address.getText().toString());
+			r.setDate(selectedMonth,selectedDay,selectedYear );
 			
 			RadioGroup types = (RadioGroup) findViewById(R.id.types);
 			
@@ -107,8 +138,11 @@ public class MainActivity extends TabActivity {
 					r.setType("delivery");
 					break;
 			}	
-			adapter.add(r);  
+			
+			adapter.add(r); 
+			//date.set(year, monthOfYear, dayOfMonth);			
 		}
+
 	};
 	
 	class RestaurantAdapter extends ArrayAdapter<Restaurant>{
@@ -139,17 +173,20 @@ public class MainActivity extends TabActivity {
 	static class RestaurantHolder{
 		private TextView name = null;
 		private TextView address = null;
+		private TextView date = null;
 		private ImageView icon = null; 
 		
 		RestaurantHolder(View row) {
 			name = (TextView) row.findViewById(R.id.title);
 			address = (TextView) row.findViewById(R.id.address);
+			date = (TextView) row.findViewById(R.id.date);
 			icon = (ImageView) row.findViewById(R.id.icon);
 		}
 		
 		void populateFrom(Restaurant r) {
 			name.setText(r.getName());
 			address.setText(r.getAddress());
+			date.setText(r.getDate());
 
 			if (r.getType().equals("sit_down")) {
 				icon.setImageResource(R.drawable.sit_down);
