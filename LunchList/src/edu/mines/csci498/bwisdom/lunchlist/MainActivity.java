@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.TabActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.TabHost;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends TabActivity {
 
 	Restaurant r = new Restaurant();
 	List<Restaurant> model = new ArrayList<Restaurant>();
@@ -35,7 +37,22 @@ public class MainActivity extends Activity {
 		
 		adapter = new RestaurantAdapter();
 		list.setAdapter(adapter);
-
+		
+		TabHost.TabSpec spec = getTabHost().newTabSpec("tag1");
+		
+		spec.setContent(R.id.restaurants);
+		spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
+		getTabHost().addTab(spec);
+		
+		spec = getTabHost().newTabSpec("tag2");
+		spec.setContent(R.id.details);
+		
+		spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
+		getTabHost().addTab(spec);
+		
+		getTabHost().setCurrentTab(0);
+		
+		
 	}
 
 	private View.OnClickListener onSave = new View.OnClickListener() {
@@ -53,7 +70,7 @@ public class MainActivity extends Activity {
 				case R.id.sit_down:
 					r.setType("sit_down");
 					break;
-				case R.id.takout:
+				case R.id.takeout:
 					r.setType("takeout");
 					break;
 				case R.id.delivery:
