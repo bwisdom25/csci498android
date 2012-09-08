@@ -8,7 +8,10 @@ import android.app.Activity;
 import android.app.TabActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,12 +26,19 @@ public class MainActivity extends TabActivity {
 	Restaurant r = new Restaurant();
 	List<Restaurant> model = new ArrayList<Restaurant>();
 	RestaurantAdapter adapter = null; 
+	EditText name = null;
+	EditText address = null;
+	RadioGroup types = null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		name = (EditText)findViewById(R.id.name);
+		address = (EditText)findViewById(R.id.addr);
+		types = (RadioGroup)findViewById(R.id.types);
+		
 		Button save = (Button) findViewById(R.id.save);
 
 		save.setOnClickListener(onSave);
@@ -37,6 +47,7 @@ public class MainActivity extends TabActivity {
 		
 		adapter = new RestaurantAdapter();
 		list.setAdapter(adapter);
+		
 		
 		TabHost.TabSpec spec = getTabHost().newTabSpec("tag1");
 		
@@ -52,9 +63,28 @@ public class MainActivity extends TabActivity {
 		
 		getTabHost().setCurrentTab(0);
 		
-		
+		list.setOnItemClickListener( onListClick);		
 	}
 
+	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			Restaurant r = model.get(position);
+			
+			name.setText(r.getName());
+			address.setText(r.getAddress());
+			
+			if(r.getType().equals("sit_down")){
+				types.check(R.id.sit_down);
+			}else if(r.getType().equals("takeout")){
+				types.check(R.id.takeout);
+			}else{
+				types.check(R.id.delivery);
+			}
+			getTabHost().setCurrentTab(1);
+
+		}
+	};
 	private View.OnClickListener onSave = new View.OnClickListener() {
 		public void onClick(View v) {
 			Restaurant r = new Restaurant();	
