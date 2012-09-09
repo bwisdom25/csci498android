@@ -3,17 +3,16 @@ package edu.mines.csci498.bwisdom.lunchlist;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Bundle;
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.TabActivity;
+import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,6 +23,7 @@ import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 public class MainActivity extends TabActivity {
 
@@ -35,6 +35,7 @@ public class MainActivity extends TabActivity {
 	EditText address = null;
 	RadioGroup types = null;
 	EditText notes = null;
+	final Context currentContext = this;
 	
 	
 	@Override
@@ -96,6 +97,8 @@ public class MainActivity extends TabActivity {
 	};
 	private View.OnClickListener onSave = new View.OnClickListener() {
 		public void onClick(View v) {
+			try{
+			
 			current = new Restaurant();	
 			EditText name = (EditText) findViewById(R.id.name);
 			EditText address = (EditText) findViewById(R.id.addr);
@@ -119,7 +122,22 @@ public class MainActivity extends TabActivity {
 					break;
 			}	
 			adapter.add(current);  
+			int x = 1/0; 
+		}catch(RuntimeException e){
+			Log.v("onClick: ", e.getMessage());
+			
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(currentContext);
+			
+			alertDialogBuilder
+				.setTitle("ERROR")
+				.setMessage(e.getMessage());
+			
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			
+			alertDialog.show();
+			
 		}
+	  }
 	};
 	
 	@Override 
