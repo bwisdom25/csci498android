@@ -78,6 +78,12 @@ public class MainActivity extends TabActivity {
 	
 	//Method used to test a "LONG" Background thread process 
 	private void doSomeLongAssWork(final int incr){
+		runOnUiThread(new Runnable(){
+			public void run(){
+				progress+=incr;
+				setProgress(progress);
+			}
+		});
 		SystemClock.sleep(250);
 	}
 	
@@ -86,6 +92,12 @@ public class MainActivity extends TabActivity {
 			for(int i=0;i<20;++i){
 				doSomeLongAssWork(500);
 			}
+			
+			runOnUiThread(new Runnable() {
+				public void run(){
+					setProgressBarVisibility(false);
+				}
+			});
 		}
 	};
 	
@@ -159,7 +171,10 @@ public class MainActivity extends TabActivity {
 			
 			return(true);
 		}else if(item.getItemId() == R.id.run){
+			setProgressBarVisibility(true);
+			progress = 0;
 			new Thread(longTask).start();
+			return(true);
 		}
 		return(super.onOptionsItemSelected(item));
 	}
