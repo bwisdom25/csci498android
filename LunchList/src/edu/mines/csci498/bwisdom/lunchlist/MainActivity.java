@@ -142,6 +142,14 @@ public class MainActivity extends TabActivity {
 			
 			return(true);
 		}
+		if(item.getItemId() == R.id.list){
+			getTabHost().setCurrentTab(0);
+			return(true);
+		}
+		if(item.getItemId() == R.id.details){
+			getTabHost().setCurrentTab(1);
+			return(true);
+		}
 		return(super.onOptionsItemSelected(item));
 	}
 	

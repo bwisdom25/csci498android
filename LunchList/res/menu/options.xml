@@ -1,3 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/toast" android:title="Raise Toast" android:icon="@drawable/beer"></item>
+    <item android:id="@+id/list" android:titleCondensed="List" android:title="Restaurant List" android:icon="@drawable/list"></item>
+    <item android:id="@+id/details" android:title="Details" android:icon="@drawable/restaurant"></item>
 </menu>
