@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.app.Activity;
 import android.app.TabActivity;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,11 +37,12 @@ public class MainActivity extends TabActivity {
 	EditText address = null;
 	RadioGroup types = null;
 	EditText notes = null;
-	
+	int progress;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.activity_main);
 
 		name = (EditText)findViewById(R.id.name);
@@ -55,7 +58,6 @@ public class MainActivity extends TabActivity {
 		
 		adapter = new RestaurantAdapter();
 		list.setAdapter(adapter);
-		
 		
 		TabHost.TabSpec spec = getTabHost().newTabSpec("tag1");
 		
@@ -73,27 +75,20 @@ public class MainActivity extends TabActivity {
 		
 		list.setOnItemClickListener( onListClick);		
 	}
-
-	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			current = model.get(position);
-			
-			name.setText(current.getName());
-			address.setText(current.getAddress());
-			notes.setText(current.getNotes());
-			
-			if(current.getType().equals("sit_down")){
-				types.check(R.id.sit_down);
-			}else if(current.getType().equals("takeout")){
-				types.check(R.id.takeout);
-			}else{
-				types.check(R.id.delivery);
+	
+	//Method used to test a "LONG" Background thread process 
+	private void doSomeLongAssWork(final int incr){
+		SystemClock.sleep(250);
+	}
+	
+	private Runnable longTask = new Runnable() {
+		public void run(){
+			for(int i=0;i<20;++i){
+				doSomeLongAssWork(500);
 			}
-			getTabHost().setCurrentTab(1);
-
 		}
 	};
+	
 	private View.OnClickListener onSave = new View.OnClickListener() {
 		public void onClick(View v) {
 			current = new Restaurant();	
@@ -122,6 +117,28 @@ public class MainActivity extends TabActivity {
 		}
 	};
 	
+	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			current = model.get(position);
+			
+			name.setText(current.getName());
+			address.setText(current.getAddress());
+			notes.setText(current.getNotes());
+			
+			if(current.getType().equals("sit_down")){
+				types.check(R.id.sit_down);
+			}else if(current.getType().equals("takeout")){
+				types.check(R.id.takeout);
+			}else{
+				types.check(R.id.delivery);
+			}
+			getTabHost().setCurrentTab(1);
+
+		}
+	};
+
+	
 	@Override 
 	public boolean onCreateOptionsMenu(Menu menu){
 		new MenuInflater(this).inflate(R.menu.options, menu);
@@ -141,6 +158,8 @@ public class MainActivity extends TabActivity {
 			Toast.makeText(this,message,Toast.LENGTH_LONG).show();
 			
 			return(true);
+		}else if(item.getItemId() == R.id.run){
+			new Thread(longTask).start();
 		}
 		return(super.onOptionsItemSelected(item));
 	}
