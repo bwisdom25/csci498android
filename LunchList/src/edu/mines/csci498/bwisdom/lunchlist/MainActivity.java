@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.TabActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -115,6 +117,13 @@ public class MainActivity extends TabActivity {
 			adapter.add(r);  
 		}
 	};
+	
+	@Override 
+	public boolean onCreateOptionsMenu(Menu menu){
+		new MenuInflater(this).inflate(R.menu.options, menu);
+		
+		return(super.onCreateOptionsMenu(menu));
+	}
 	
 	class RestaurantAdapter extends ArrayAdapter<Restaurant>{
 		RestaurantAdapter(){
