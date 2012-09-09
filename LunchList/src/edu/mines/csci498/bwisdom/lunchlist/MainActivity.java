@@ -29,6 +29,7 @@ public class MainActivity extends TabActivity {
 	EditText name = null;
 	EditText address = null;
 	RadioGroup types = null;
+	EditText notes = null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class MainActivity extends TabActivity {
 		name = (EditText)findViewById(R.id.name);
 		address = (EditText)findViewById(R.id.addr);
 		types = (RadioGroup)findViewById(R.id.types);
+		notes = (EditText)findViewById(R.id.notes);
 		
 		Button save = (Button) findViewById(R.id.save);
 
@@ -73,6 +75,7 @@ public class MainActivity extends TabActivity {
 			
 			name.setText(r.getName());
 			address.setText(r.getAddress());
+			notes.setText(r.getNotes());
 			
 			if(r.getType().equals("sit_down")){
 				types.check(R.id.sit_down);
@@ -90,9 +93,11 @@ public class MainActivity extends TabActivity {
 			Restaurant r = new Restaurant();	
 			EditText name = (EditText) findViewById(R.id.name);
 			EditText address = (EditText) findViewById(R.id.addr);
-
+			EditText notes = (EditText) findViewById(R.id.notes);
+			
 			r.setName(name.getText().toString());
 			r.setAddress(address.getText().toString());
+			r.setNotes(notes.getText().toString());
 			
 			RadioGroup types = (RadioGroup) findViewById(R.id.types);
 			
