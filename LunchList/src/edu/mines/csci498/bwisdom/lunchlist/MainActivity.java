@@ -3,14 +3,11 @@ package edu.mines.csci498.bwisdom.lunchlist;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.app.TabActivity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,10 +15,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
-import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
-public class MainActivity extends TabActivity {
+public class MainActivity extends Activity {
 
 	Restaurant r = new Restaurant();
 	List<Restaurant> model = new ArrayList<Restaurant>();
@@ -29,6 +26,7 @@ public class MainActivity extends TabActivity {
 	EditText name = null;
 	EditText address = null;
 	RadioGroup types = null;
+	ViewFlipper vf=null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +36,7 @@ public class MainActivity extends TabActivity {
 		name = (EditText)findViewById(R.id.name);
 		address = (EditText)findViewById(R.id.addr);
 		types = (RadioGroup)findViewById(R.id.types);
-		
+		vf = (ViewFlipper)findViewById(R.id.viewflip);
 		Button save = (Button) findViewById(R.id.save);
 
 		save.setOnClickListener(onSave);
@@ -47,21 +45,6 @@ public class MainActivity extends TabActivity {
 		
 		adapter = new RestaurantAdapter();
 		list.setAdapter(adapter);
-		
-		
-		TabHost.TabSpec spec = getTabHost().newTabSpec("tag1");
-		
-		spec.setContent(R.id.restaurants);
-		spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
-		getTabHost().addTab(spec);
-		
-		spec = getTabHost().newTabSpec("tag2");
-		spec.setContent(R.id.details);
-		
-		spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
-		getTabHost().addTab(spec);
-		
-		getTabHost().setCurrentTab(0);
 		
 		list.setOnItemClickListener( onListClick);		
 	}
@@ -81,7 +64,7 @@ public class MainActivity extends TabActivity {
 			}else{
 				types.check(R.id.delivery);
 			}
-			getTabHost().setCurrentTab(1);
+			vf.showPrevious();
 
 		}
 	};
@@ -108,6 +91,7 @@ public class MainActivity extends TabActivity {
 					break;
 			}	
 			adapter.add(r);  
+			vf.showNext();
 		}
 	};
 	
