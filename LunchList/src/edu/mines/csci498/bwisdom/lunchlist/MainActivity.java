@@ -2,6 +2,7 @@ package edu.mines.csci498.bwisdom.lunchlist;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -30,13 +31,14 @@ import android.widget.Toast;
 public class MainActivity extends TabActivity {
 
 	Restaurant r = new Restaurant();
-	Restaurant current = null;
+	Restaurant current;
 	List<Restaurant> model = new ArrayList<Restaurant>();
-	RestaurantAdapter adapter = null; 
-	EditText name = null;
-	EditText address = null;
-	RadioGroup types = null;
-	EditText notes = null;
+	RestaurantAdapter adapter; 
+	EditText name;
+	EditText address;
+	RadioGroup types;
+	EditText notes;
+	AtomicBoolean isActive = new AtomicBoolean(true);
 	int progress;
 	
 	@Override
@@ -76,6 +78,28 @@ public class MainActivity extends TabActivity {
 		list.setOnItemClickListener( onListClick);		
 	}
 	
+	@Override
+	public void onPause(){
+		super.onPause();
+		isActive.set(false);
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		
+		isActive.set(true);
+		
+		if(progress>0){
+			startWork();
+		}
+	}
+	
+	private void startWork(){
+		setProgressBarVisibility(true);
+		new Thread(longTask).start();
+	}
+	
 	//Method used to test a "LONG" Background thread process 
 	private void doSomeLongAssWork(final int incr){
 		runOnUiThread(new Runnable(){
@@ -88,16 +112,17 @@ public class MainActivity extends TabActivity {
 	}
 	
 	private Runnable longTask = new Runnable() {
-		public void run(){
-			for(int i=0;i<20;++i){
-				doSomeLongAssWork(500);
+		public void run() {
+			for (int i = progress; i < 10000 && isActive.get(); i += 200) {
+				doSomeLongAssWork(200);
 			}
-			
-			runOnUiThread(new Runnable() {
-				public void run(){
-					setProgressBarVisibility(false);
-				}
-			});
+			if (isActive.get()) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						setProgressBarVisibility(false);
+					}
+				});
+			}
 		}
 	};
 	
@@ -171,9 +196,9 @@ public class MainActivity extends TabActivity {
 			
 			return(true);
 		}else if(item.getItemId() == R.id.run){
-			setProgressBarVisibility(true);
-			progress = 0;
-			new Thread(longTask).start();
+			
+			startWork();
+			
 			return(true);
 		}
 		return(super.onOptionsItemSelected(item));
