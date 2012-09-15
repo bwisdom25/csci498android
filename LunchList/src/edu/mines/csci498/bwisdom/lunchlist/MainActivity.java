@@ -120,6 +120,7 @@ public class MainActivity extends TabActivity {
 				runOnUiThread(new Runnable() {
 					public void run() {
 						setProgressBarVisibility(false);
+						progress = 0;
 					}
 				});
 			}
