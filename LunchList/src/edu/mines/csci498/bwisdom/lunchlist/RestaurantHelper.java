@@ -44,11 +44,13 @@ class RestaurantHelper extends SQLiteOpenHelper {
 						null));
 	}
 	
+	
+	
 	public String getName(Cursor c){
 		return(c.getString(1));
 	}
 	
-	public String getAddresss(Cursor c){
+	public String getAddress(Cursor c){
 		return(c.getString(2));
 	}
 	
