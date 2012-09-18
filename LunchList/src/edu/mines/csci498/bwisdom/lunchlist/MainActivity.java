@@ -60,6 +60,8 @@ public class MainActivity extends TabActivity {
 		
 		ListView list = (ListView) findViewById(R.id.restaurants);
 		
+		helper = new RestaurantHelper(this);
+		
 		model = helper.getAll();
 		startManagingCursor(model);
 		
@@ -82,20 +84,13 @@ public class MainActivity extends TabActivity {
 		
 		list.setOnItemClickListener( onListClick);
 		
-		helper = new RestaurantHelper(this);
+		
 	}
 
 	private View.OnClickListener onSave = new View.OnClickListener() {
 		public void onClick(View v) {
-			EditText name = (EditText) findViewById(R.id.name);
-			EditText address = (EditText) findViewById(R.id.addr);
-			EditText notes = (EditText) findViewById(R.id.notes);
-			String type = null; 
-			current.setName(name.getText().toString());
-			current.setAddress(address.getText().toString());
-			current.setNotes(notes.getText().toString());
 			
-			RadioGroup types = (RadioGroup) findViewById(R.id.types);
+			String type = null; 
 			
 			switch(types.getCheckedRadioButtonId()){
 				case R.id.sit_down:
