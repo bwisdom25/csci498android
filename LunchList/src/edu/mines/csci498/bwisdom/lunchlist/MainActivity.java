@@ -1,8 +1,10 @@
 package edu.mines.csci498.bwisdom.lunchlist;
 
 import android.os.Bundle;
+import android.app.ListActivity;
 import android.app.TabActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-public class MainActivity extends TabActivity {
+public class MainActivity extends ListActivity {
 
 	Restaurant r = new Restaurant();
 	Restaurant current;
@@ -33,86 +35,24 @@ public class MainActivity extends TabActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.activity_main);
-
-		name = (EditText) findViewById(R.id.name);
-		address = (EditText) findViewById(R.id.addr);
-		types = (RadioGroup) findViewById(R.id.types);
-		notes = (EditText) findViewById(R.id.notes);
-
-		Button save = (Button) findViewById(R.id.save);
-
-		save.setOnClickListener(onSave);
-
-		ListView list = (ListView) findViewById(R.id.restaurants);
 
 		helper = new RestaurantHelper(this);
 		model = helper.getAll();
 		startManagingCursor(model);
 
 		adapter = new RestaurantAdapter(model);
-		list.setAdapter(adapter);
-
-		TabHost.TabSpec spec = getTabHost().newTabSpec("tag1");
-
-		spec.setContent(R.id.restaurants);
-		spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
-		getTabHost().addTab(spec);
-
-		spec = getTabHost().newTabSpec("tag2");
-		spec.setContent(R.id.details);
-
-		spec.setIndicator("Details",
-				getResources().getDrawable(R.drawable.restaurant));
-		getTabHost().addTab(spec);
-		getTabHost().setCurrentTab(0);
-
-		list.setOnItemClickListener(onListClick);
+		setListAdapter(adapter);
 
 	}
 
-	private View.OnClickListener onSave = new View.OnClickListener() {
-		public void onClick(View v) {
-
-			String type = null;
-
-			switch (types.getCheckedRadioButtonId()) {
-			case R.id.sit_down:
-				type = "sit_down";
-				break;
-			case R.id.takeout:
-				type = "takeout";
-				break;
-			case R.id.delivery:
-				type = "delivery";
-				break;
-			}
-			helper.insert(name.getText().toString(), address.getText()
-					.toString(), type, notes.getText().toString());
-			model.requery();
-		}
-	};
-
+	
 	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-
-			model.moveToPosition(position);
-
-			name.setText(helper.getName(model));
-			address.setText(helper.getAddress(model));
-			notes.setText(helper.getNotes(model));
-
-			if (helper.getType(model).equals("sit_down")) {
-				types.check(R.id.sit_down);
-			} else if (helper.getType(model).equals("takeout")) {
-				types.check(R.id.takeout);
-			} else {
-				types.check(R.id.delivery);
-			}
-			getTabHost().setCurrentTab(1);
-
+			Intent i = new Intent(MainActivity.this,DetailForm.class);
+			
+			startActivity(i);
 		}
 	};
 
