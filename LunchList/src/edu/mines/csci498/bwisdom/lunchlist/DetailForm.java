@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.util.Log;
 
 public class DetailForm extends Activity {
 	EditText name = null;
@@ -18,7 +19,7 @@ public class DetailForm extends Activity {
 	
 	@Override 
 	public void onCreate(Bundle savedInstanceState) {
-		
+		Log.d("DETAILFORM", "activity created!");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_form);
 		
@@ -56,6 +57,17 @@ public class DetailForm extends Activity {
 				type = "delivery";
 				break;
 			}
+			
+			if(restaurantId == null ){
+				helper.insert(name.getText().toString(),
+							  address.getText().toString(),
+							  type, notes.getText().toString());
+			} else {
+				helper.update(restaurantId,name.getText().toString(),
+						  address.getText().toString(),
+						  type, notes.getText().toString());
+			}
+			finish();
 		}
 	};
 	

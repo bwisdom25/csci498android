@@ -2,7 +2,6 @@ package edu.mines.csci498.bwisdom.lunchlist;
 
 import android.os.Bundle;
 import android.app.ListActivity;
-import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,29 +11,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CursorAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioGroup;
-import android.widget.TabHost;
 import android.widget.TextView;
-
+import android.util.Log;
 public class MainActivity extends ListActivity {
-
-	Restaurant r = new Restaurant();
-	Restaurant current;
 	Cursor model;
 	RestaurantAdapter adapter;
-	RestaurantHelper helper;
-	EditText name;
-	EditText address;
-	RadioGroup types;
-	EditText notes;
-	
+	RestaurantHelper helper;	
 	public final static String ID_EXTRA = "apt.tutorial._ID";
 
 	@Override
@@ -51,17 +37,17 @@ public class MainActivity extends ListActivity {
 
 	}
 
-	
-	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			
-			Intent i = new Intent(MainActivity.this,DetailForm.class);
-			
-			i.putExtra(ID_EXTRA, String.valueOf(id));
-			startActivity(i);
-		}
-	};
+	@Override
+	public void onListItemClick(ListView list, View view, int position,
+			long id) {
+
+		Intent i = new Intent(MainActivity.this, DetailForm.class);
+
+		i.putExtra(ID_EXTRA, String.valueOf(id));
+		Log.d("MAINACTIVITY", "List item selected Starting DetailForm Activity");
+		startActivity(i);
+
+	}
 	
 	@Override 
 	public boolean onCreateOptionsMenu(Menu menu){
