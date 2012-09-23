@@ -1,19 +1,20 @@
 package edu.mines.csci498.bwisdom.lunchlist;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
-
 public class DetailForm extends Activity {
 	EditText name = null;
 	EditText address = null;
 	EditText notes = null;
 	RadioGroup types = null;
-	RestaurantHelper helper = null; 			
+	RestaurantHelper helper = null; 	
+	String restaurantId = null; 
 	
 	@Override 
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,12 @@ public class DetailForm extends Activity {
 		Button save = (Button) findViewById(R.id.save);
 
 		save.setOnClickListener(onSave);
+		
+		restaurantId = getIntent().getStringExtra(MainActivity.ID_EXTRA);
+		
+		if(restaurantId != null){
+			load();
+		}
 	}
 	
 	private View.OnClickListener onSave = new View.OnClickListener() {
@@ -51,5 +58,33 @@ public class DetailForm extends Activity {
 			}
 		}
 	};
+	
+	private void load(){
+		Cursor c = helper.getById(restaurantId);
+		
+		c.moveToFirst();
+		name.setText(helper.getName(c));
+		address.setText(helper.getAddress(c));
+		notes.setText(helper.getName(c));
+		
+		if(helper.getType(c).equals("sit_down")){
+			types.check(R.id.sit_down);
+		}else if(helper.getType(c).equals("takeout")){
+			types.check(R.id.takeout);
+		}else{
+			types.check(R.id.delivery);
+		}
+
+		c.close();
+	}
+	
+
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		
+		helper.close();
+	}
 	
 }

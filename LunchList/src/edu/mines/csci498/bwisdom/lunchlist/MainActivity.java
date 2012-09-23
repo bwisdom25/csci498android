@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -31,6 +34,8 @@ public class MainActivity extends ListActivity {
 	EditText address;
 	RadioGroup types;
 	EditText notes;
+	
+	public final static String ID_EXTRA = "apt.tutorial._ID";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,11 +55,29 @@ public class MainActivity extends ListActivity {
 	private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
+			
 			Intent i = new Intent(MainActivity.this,DetailForm.class);
 			
+			i.putExtra(ID_EXTRA, String.valueOf(id));
 			startActivity(i);
 		}
 	};
+	
+	@Override 
+	public boolean onCreateOptionsMenu(Menu menu){
+		new MenuInflater(this).inflate(R.menu.options,menu);
+		
+		return(super.onCreateOptionsMenu(menu));
+	}
+	
+	@Override 
+	public boolean onOptionsItemSelected(MenuItem item){
+		if(item.getItemId() == R.id.add){
+			startActivity(new Intent(MainActivity.this, DetailForm.class));
+			return(true);
+		}
+		return(super.onOptionsItemSelected(item));
+	}
 
 	class RestaurantAdapter extends CursorAdapter {
 		RestaurantAdapter(Cursor c) {
