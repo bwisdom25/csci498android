@@ -12,5 +12,8 @@
     <string name="notes">Notes:</string>
     <string name="save">Save</string>
     <string name="empty">Click the MENU button to Add a Restaurant!</string>
+    <string name="prefTitle">Sort Order</string>
+    <string name="prefSummary">Choose the order the list uses</string>
+    <string name="prefDialTitle">Choose a sort order</string>
 
 </resources>
