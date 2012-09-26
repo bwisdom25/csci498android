@@ -1,9 +1,11 @@
 package edu.mines.csci498.bwisdom.lunchlist;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +25,20 @@ public class MainActivity extends ListActivity {
 	RestaurantAdapter adapter;
 	RestaurantHelper helper;	
 	public final static String ID_EXTRA = "apt.tutorial._ID";
+	SharedPreferences prefs;
+	
+	private SharedPreferences.OnSharedPreferenceChangeListener prefListener = 
+		new SharedPreferences.OnSharedPreferenceChangeListener() {
+			
+			@Override
+			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+					String key) {
+				
+				if(key.equals("sort_order")){
+					initList();
+				}				
+			}
+		};
 	
 	class RestaurantAdapter extends CursorAdapter {
 		RestaurantAdapter(Cursor c) {
@@ -76,17 +92,16 @@ public class MainActivity extends ListActivity {
 		}
 	}
 	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		helper = new RestaurantHelper(this);
-		model = helper.getAll();
-		startManagingCursor(model);
-
-		adapter = new RestaurantAdapter(model);
-		setListAdapter(adapter);
+		initList();
+		prefs.registerOnSharedPreferenceChangeListener(prefListener);
 
 	}
 
@@ -124,14 +139,24 @@ public class MainActivity extends ListActivity {
 		
 		return super.onOptionsItemSelected(item);
 	}
-
-
-
+	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 
 		helper.close();
+	}
+	
+	private void initList() {
+		if(model != null) {
+			stopManagingCursor(model);
+			model.close();
+		}
+		
+		model = helper.getAll(prefs.getString("sort_order", "name"));
+		startManagingCursor(model);
+		adapter = new RestaurantAdapter(model);
+		setListAdapter(adapter);
 	}
 	
 }
