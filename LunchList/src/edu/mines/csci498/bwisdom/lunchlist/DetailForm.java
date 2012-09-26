@@ -71,7 +71,7 @@ public class DetailForm extends Activity {
 		}
 	};
 	
-	private void load(){
+	private void load() {
 		Cursor c = helper.getById(restaurantId);
 		
 		c.moveToFirst();
@@ -90,10 +90,8 @@ public class DetailForm extends Activity {
 		c.close();
 	}
 	
-
-	
 	@Override
-	public void onDestroy(){
+	public void onDestroy() {
 		super.onDestroy();
 		
 		helper.close();

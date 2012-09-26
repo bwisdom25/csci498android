@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 class RestaurantHelper extends SQLiteOpenHelper {
+	
 	private static final String DATABASE_NAME = "lunchlist.db";
 	private static final int SCHEMA_VERSION = 1;
 
@@ -16,8 +17,7 @@ class RestaurantHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ " name TEXT, address TEXT, type TEXT, notes TEXT);");
+		db.execSQL("CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, type TEXT, notes TEXT);");
 	}
 
 	@Override
@@ -37,7 +37,7 @@ class RestaurantHelper extends SQLiteOpenHelper {
 		getWritableDatabase().insert("restaurants", "name", cv);
 	}
 	
-	public void update(String id, String name, String address, String type, String notes){
+	public void update(String id, String name, String address, String type, String notes) {
 		ContentValues cv = new ContentValues();
 		String[] args = {id};
 		
@@ -51,34 +51,29 @@ class RestaurantHelper extends SQLiteOpenHelper {
 	}
 
 	public Cursor getAll() {
-		return (getReadableDatabase()
-				.rawQuery(
-						"SELECT _id, name, address, type, notes FROM restaurants ORDER BY NAME",
-						null));
+		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes FROM restaurants ORDER BY NAME", null);
 	}
 
 	public String getName(Cursor c) {
-		return (c.getString(1));
+		return c.getString(1);
 	}
 
 	public String getAddress(Cursor c) {
-		return (c.getString(2));
+		return c.getString(2);
 	}
 
 	public String getType(Cursor c) {
-		return (c.getString(3));
+		return c.getString(3);
 	}
 
 	public String getNotes(Cursor c) {
-		return (c.getString(4));
+		return c.getString(4);
 	}
 	
 	public Cursor getById(String id) {
 		String[] args = {id};
 
-		return(getReadableDatabase()
-				.rawQuery(
-						"SELECT _id, name, address, type, notes FROM restaurants WHERE _ID=?",
-						args));
+		return getReadableDatabase().rawQuery("SELECT _id, name, address, type, notes FROM restaurants WHERE _ID=?",args);
 	}
+	
 }

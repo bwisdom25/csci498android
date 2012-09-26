@@ -18,53 +18,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.util.Log;
 public class MainActivity extends ListActivity {
+	
 	Cursor model;
 	RestaurantAdapter adapter;
 	RestaurantHelper helper;	
 	public final static String ID_EXTRA = "apt.tutorial._ID";
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
-		helper = new RestaurantHelper(this);
-		model = helper.getAll();
-		startManagingCursor(model);
-
-		adapter = new RestaurantAdapter(model);
-		setListAdapter(adapter);
-
-	}
-
-	@Override
-	public void onListItemClick(ListView list, View view, int position,
-			long id) {
-
-		Intent i = new Intent(MainActivity.this, DetailForm.class);
-
-		i.putExtra(ID_EXTRA, String.valueOf(id));
-		Log.d("MAINACTIVITY", "List item selected Starting DetailForm Activity");
-		startActivity(i);
-
-	}
 	
-	@Override 
-	public boolean onCreateOptionsMenu(Menu menu){
-		new MenuInflater(this).inflate(R.menu.options,menu);
-		
-		return(super.onCreateOptionsMenu(menu));
-	}
-	
-	@Override 
-	public boolean onOptionsItemSelected(MenuItem item){
-		if(item.getItemId() == R.id.add){
-			startActivity(new Intent(MainActivity.this, DetailForm.class));
-			return(true);
-		}
-		return(super.onOptionsItemSelected(item));
-	}
-
 	class RestaurantAdapter extends CursorAdapter {
 		RestaurantAdapter(Cursor c) {
 			super(MainActivity.this, c);
@@ -88,7 +47,7 @@ public class MainActivity extends ListActivity {
 
 			row.setTag(holder);
 
-			return (row);
+			return row;
 		}
 	}
 
@@ -116,6 +75,49 @@ public class MainActivity extends ListActivity {
 			}
 		}
 	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		helper = new RestaurantHelper(this);
+		model = helper.getAll();
+		startManagingCursor(model);
+
+		adapter = new RestaurantAdapter(model);
+		setListAdapter(adapter);
+
+	}
+
+	@Override
+	public void onListItemClick(ListView list, View view, int position, long id) {
+
+		Intent i = new Intent(MainActivity.this, DetailForm.class);
+
+		i.putExtra(ID_EXTRA, String.valueOf(id));
+		Log.d("MAINACTIVITY", "List item selected Starting DetailForm Activity");
+		startActivity(i);
+
+	}
+	
+	@Override 
+	public boolean onCreateOptionsMenu(Menu menu) {
+		new MenuInflater(this).inflate(R.menu.options,menu);
+		
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override 
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(item.getItemId() == R.id.add){
+			startActivity(new Intent(MainActivity.this, DetailForm.class));
+			return(true);
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+
 
 	@Override
 	public void onDestroy() {
@@ -123,4 +125,5 @@ public class MainActivity extends ListActivity {
 
 		helper.close();
 	}
+	
 }
