@@ -11,5 +11,6 @@
     <string name="delivery">Delivery</string>
     <string name="notes">Notes:</string>
     <string name="save">Save</string>
+    <string name="empty">Click the MENU button to Add a Restaurant!</string>
 
 </resources>
