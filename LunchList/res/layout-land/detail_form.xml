@@ -3,19 +3,19 @@
     		android:layout_height="wrap_content">
     <TableLayout android:layout_width="match_parent"
         		 android:layout_height="wrap_content"
-        		 android:stretchColumns="3"
-        		 android:shrinkColumns="3">
+        		 android:stretchColumns="2"
+        		 android:shrinkColumns="2">
         
         <TableRow>
             <TextView android:text="@string/name" />
             <EditText android:id="@+id/name"
-                	  android:layout_span="3" />
+                	  android:layout_span="2" />
         </TableRow>
         
         <TableRow>
             <TextView android:text="@string/address" />
             <EditText android:id="@+id/addr"
-                	  android:layout_span="3" />
+                	  android:layout_span="2" />
         </TableRow>
         
         <TableRow>
@@ -29,7 +29,6 @@
                 <RadioButton android:id="@+id/delivery"
                     		 android:text="@string/delivery" />
             </RadioGroup>
-            <TextView android:text="@string/notes" />
             <LinearLayout android:orientation="vertical">
                 <EditText android:id="@+id/notes"
                     	  android:layout_width="match_parent"
@@ -38,7 +37,12 @@
                     	  android:gravity="top"
                     	  android:lines="2"
                     	  android:scrollHorizontally="false"
-                    	  android:maxLines="2" />
+                    	  android:maxLines="2" 
+                    	  android:hint="Notes" />
+                <EditText android:id="@+id/feed"
+                    	  android:layout_width="match_parent"
+                    	  android:layout_height="wrap_content"
+                    	  android:hint="Feed URL" />
                 <Button android:id="@+id/save"
                     	android:text="@string/save"
                     	android:layout_width="match_parent"

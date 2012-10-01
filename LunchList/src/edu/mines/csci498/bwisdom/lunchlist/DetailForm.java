@@ -3,6 +3,8 @@ package edu.mines.csci498.bwisdom.lunchlist;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +15,7 @@ public class DetailForm extends Activity {
 	EditText name = null;
 	EditText address = null;
 	EditText notes = null;
+	EditText feed = null;
 	RadioGroup types = null;
 	RestaurantHelper helper = null; 	
 	String restaurantId = null; 
@@ -29,6 +32,7 @@ public class DetailForm extends Activity {
 		address = (EditText) findViewById(R.id.addr);
 		types = (RadioGroup) findViewById(R.id.types);
 		notes = (EditText) findViewById(R.id.notes);
+		feed = (EditText) findViewById(R.id.feed);
 		
 		Button save = (Button) findViewById(R.id.save);
 
@@ -52,13 +56,20 @@ public class DetailForm extends Activity {
 	}
 	
 	@Override 
-	public void onRestoreInstanceState(Bundle state){
+	public void onRestoreInstanceState(Bundle state) {
 		super.onRestoreInstanceState(state);
 		
 		name.setText(state.getString("name"));
 		address.setText(state.getString("address"));
 		types.check(state.getInt("type"));
 		notes.setText(state.getString("notes"));
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		new MenuInflater(this).inflate(R.menu.details_option, menu);
+		
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 	private View.OnClickListener onSave = new View.OnClickListener() {
@@ -81,11 +92,13 @@ public class DetailForm extends Activity {
 			if(restaurantId == null ){
 				helper.insert(name.getText().toString(),
 							  address.getText().toString(),
-							  type, notes.getText().toString());
+							  type, notes.getText().toString(),
+							  feed.getText().toString());
 			} else {
 				helper.update(restaurantId,name.getText().toString(),
 						  address.getText().toString(),
-						  type, notes.getText().toString());
+						  type, notes.getText().toString(),
+						  feed.getText().toString());
 			}
 			finish();
 		}
@@ -98,6 +111,7 @@ public class DetailForm extends Activity {
 		name.setText(helper.getName(c));
 		address.setText(helper.getAddress(c));
 		notes.setText(helper.getName(c));
+		feed.setText(helper.getFeed(c));
 		
 		if(helper.getType(c).equals("sit_down")){
 			types.check(R.id.sit_down);
