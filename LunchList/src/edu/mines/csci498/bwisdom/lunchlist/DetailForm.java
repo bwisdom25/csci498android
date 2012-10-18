@@ -116,6 +116,15 @@ public class DetailForm extends Activity {
 	}
 	
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if(restaurantId == null ) {
+			menu.findItem(R.id.location).setEnabled(false);
+		}
+		
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Log.d("DetailForm","MenuItem Selected");
 		if(item.getItemId() == R.id.menufeed) {
