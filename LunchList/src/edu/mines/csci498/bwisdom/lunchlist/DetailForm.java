@@ -3,6 +3,9 @@ package edu.mines.csci498.bwisdom.lunchlist;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -27,6 +30,40 @@ public class DetailForm extends Activity {
 	RestaurantHelper helper = null; 	
 	String restaurantId = null; 
 	
+	LocationManager locMgr = null;
+	
+	LocationListener onLocationChange = new LocationListener() {
+		public void onLocationChanged(Location fix) {
+			helper.updateLocation(restaurantId, fix.getLatitude(), fix.getLongitude());
+			
+			location.setText(String.valueOf(fix.getLatitude()) + ", " + fix.getLongitude());
+			
+			locMgr.removeUpdates(onLocationChange);
+			
+			Toast.makeText(DetailForm.this, "Location Saved", Toast.LENGTH_LONG).show();
+			
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			// Required method for interface (NOT USED)
+			
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			// Required method for interface (NOT USED)
+			
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			// Required method for interface (NOT USED)
+			
+		}
+		
+	};
+	
 	@Override 
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d("DETAILFORM", "activity created!");
@@ -41,6 +78,8 @@ public class DetailForm extends Activity {
 		notes = (EditText) findViewById(R.id.notes);
 		feed = (EditText) findViewById(R.id.feed);
 		location = (TextView) findViewById(R.id.location);
+		
+		locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
 		
 		restaurantId = getIntent().getStringExtra(MainActivity.ID_EXTRA);
 		
@@ -89,6 +128,9 @@ public class DetailForm extends Activity {
 				Toast.makeText(this, "Sorry, The Internets are not available", Toast.LENGTH_LONG).show();
 			}
 			
+			return true;
+		} else if(item.getItemId() == R.id.location) {
+			locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, onLocationChange);
 			return true;
 		}
 		
@@ -164,8 +206,9 @@ public class DetailForm extends Activity {
 	
 	@Override
 	public void onPause() {
-		save();
 		
+		save();
+		locMgr.removeUpdates(onLocationChange);
 		super.onPause();
 	}
 	
