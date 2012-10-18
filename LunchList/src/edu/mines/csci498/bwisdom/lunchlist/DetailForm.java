@@ -35,9 +35,9 @@ public class DetailForm extends Activity {
 	LocationListener onLocationChange = new LocationListener() {
 		public void onLocationChanged(Location fix) {
 			helper.updateLocation(restaurantId, fix.getLatitude(), fix.getLongitude());
-			
-			location.setText(String.valueOf(fix.getLatitude()) + ", " + fix.getLongitude());
-			
+			Log.d("DETAILFORM", "Location updated in Database!");
+			location.setText(String.valueOf(fix.getLatitude()) + ", " + String.valueOf(fix.getLongitude()));
+			Log.d("DETAILFORM", "Location textview updated!");
 			locMgr.removeUpdates(onLocationChange);
 			
 			Toast.makeText(DetailForm.this, "Location Saved", Toast.LENGTH_LONG).show();
@@ -70,6 +70,7 @@ public class DetailForm extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_form);
 		
+		locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
 		helper = new RestaurantHelper(this);
 		
 		name = (EditText) findViewById(R.id.name);
@@ -78,8 +79,7 @@ public class DetailForm extends Activity {
 		notes = (EditText) findViewById(R.id.notes);
 		feed = (EditText) findViewById(R.id.feed);
 		location = (TextView) findViewById(R.id.location);
-		
-		locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
+
 		
 		restaurantId = getIntent().getStringExtra(MainActivity.ID_EXTRA);
 		

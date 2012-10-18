@@ -108,7 +108,7 @@ class RestaurantHelper extends SQLiteOpenHelper {
 		cv.put("lat", lat);
 		cv.put("lon", lon);
 		
-		getWritableDatabase().update("restaurants",cv,"_ID=",args);
+		getWritableDatabase().update("restaurants",cv,"_ID=?",args);
 		
 	}
 	
