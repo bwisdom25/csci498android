@@ -39,10 +39,6 @@ public class DetailForm extends Activity {
 		notes = (EditText) findViewById(R.id.notes);
 		feed = (EditText) findViewById(R.id.feed);
 		
-		Button save = (Button) findViewById(R.id.save);
-
-		save.setOnClickListener(onSave);
-		
 		restaurantId = getIntent().getStringExtra(MainActivity.ID_EXTRA);
 		
 		if(restaurantId != null){
@@ -104,9 +100,8 @@ public class DetailForm extends Activity {
     	return (info != null);
     }
 	
-	private View.OnClickListener onSave = new View.OnClickListener() {
-		public void onClick(View v) {
-
+	public void save() {
+		if(name.getText().toString().length() > 0 ) {
 			String type = null;
 
 			switch (types.getCheckedRadioButtonId()) {
@@ -132,9 +127,8 @@ public class DetailForm extends Activity {
 						  type, notes.getText().toString(),
 						  feed.getText().toString());
 			}
-			finish();
 		}
-	};
+	}
 	
 	private void load() {
 		Cursor c = helper.getById(restaurantId);
@@ -161,6 +155,13 @@ public class DetailForm extends Activity {
 		super.onDestroy();
 		
 		helper.close();
+	}
+	
+	@Override
+	public void onPause() {
+		save();
+		
+		super.onPause();
 	}
 	
 }
