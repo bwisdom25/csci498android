@@ -15,5 +15,7 @@
     <string name="prefTitle">Sort Order</string>
     <string name="prefSummary">Choose the order the list uses</string>
     <string name="prefDialTitle">Choose a sort order</string>
+    <string name="locationTitle">Location:</string>
+    <string name="notSet">(not set)</string>
 
 </resources>
