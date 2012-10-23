@@ -32,6 +32,9 @@ public class DetailForm extends Activity {
 	
 	LocationManager locMgr = null;
 	
+	double latitude = 0.0d;
+	double longitude = 0.0d;
+	
 	LocationListener onLocationChange = new LocationListener() {
 		public void onLocationChanged(Location fix) {
 			helper.updateLocation(restaurantId, fix.getLatitude(), fix.getLongitude());
@@ -119,6 +122,7 @@ public class DetailForm extends Activity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if(restaurantId == null ) {
 			menu.findItem(R.id.location).setEnabled(false);
+			menu.findItem(R.id.map).setEnabled(false);
 		}
 		
 		return super.onPrepareOptionsMenu(menu);
@@ -129,18 +133,36 @@ public class DetailForm extends Activity {
 		Log.d("DetailForm","MenuItem Selected");
 		if(item.getItemId() == R.id.menufeed) {
 			if( isNetworkAvailable() ) {
+				
 				Intent i = new Intent(this, FeedActivity.class);
 				Log.d("DetailForm", "NetworkAvailalbe Starting intent");
 				i.putExtra(FeedActivity.FEED_URL, feed.getText().toString());
 				startActivity(i);
+				
 			} else {
+				
 				Toast.makeText(this, "Sorry, The Internets are not available", Toast.LENGTH_LONG).show();
+				
 			}
 			
 			return true;
 		} else if(item.getItemId() == R.id.location) {
+			
 			locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, onLocationChange);
 			return true;
+			
+		} else if(item.getItemId() == R.id.map) {
+			
+			Intent i = new Intent(this,RestaurantMap.class);
+			
+			i.putExtra(RestaurantMap.EXTRA_LATITUDE, latitude);
+			i.putExtra(RestaurantMap.EXTRA_LONGITUDE, longitude);
+			i.putExtra(RestaurantMap.EXTRA_NAME, name.getText().toString());
+			
+			startActivity(i);
+			
+			return true;
+			
 		}
 		
 		return super.onOptionsItemSelected(item);
@@ -200,9 +222,12 @@ public class DetailForm extends Activity {
 		}else{
 			types.check(R.id.delivery);
 		}
-
-		location.setText(String.valueOf(helper.getLatitude(c)) + ", " + String.valueOf(helper.getLongitude(c)));
 		
+		latitude = helper.getLatitude(c);
+		longitude = helper.getLongitude(c);
+		
+		location.setText(String.valueOf(helper.getLatitude(c)) + ", " + String.valueOf(helper.getLongitude(c)));
+			
 		c.close();
 	}
 	
