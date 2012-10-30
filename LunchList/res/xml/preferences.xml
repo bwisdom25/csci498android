@@ -1,8 +1,19 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <ListPreference android:key="sort_order"
+    <ListPreference 
+        			android:key="sort_order"
         			android:title="@string/prefTitle"
         			android:summary="@string/prefSummary"
         			android:entries="@array/sort_names"
         			android:entryValues="@array/sort_clauses"
         			android:dialogTitle="@string/prefDialTitle" />
+    <CheckBoxPreference 
+        			android:key="alarm"
+        			android:title="@string/soundAlarmTitle"
+        			android:summary="@string/summaryAlarm" />
+    <edu.mines.csci498.bwisdom.lunchlist.TimePreference 
+        			android:key="alarm_time"
+        			android:title="@string/lunchAlarmTitle"
+        			android:defaultValue="12:00"
+        			android:summary="@string/lunchAlarmSummary"
+        			android:dependency="alarm" />        			
 </PreferenceScreen>
