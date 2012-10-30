@@ -19,8 +19,11 @@
     <string name="notSet">(not set)</string>
     <string name="soundAlarmTitle">Sound a Lunch Alarm</string>
     <string name="summaryAlarm">Check if you want to know when it is time for lunch</string>
-    <string name="lunchAlarmTitle">Lunch Alarm Title</string>
+    <string name="lunchAlarmTitle">Lunch Alarm Time</string>
     <string name="lunchAlarmSummary">Set your desired time for the lunch alarm</string>
     <string name="alarmText">Its Time for Lunch!</string>
+    <string name="notificationTitle">Use a Notification</string>
+    <string name="notificationSummary">Check if you want status bar icon at lunchtime, or uncheck for full screen notification</string>
+    <string name="alarmNote">Its time for lunch ARE YOU A HUNGRY, HUNGRY, HIPPO?</string>
 
 </resources>

@@ -15,5 +15,11 @@
         			android:title="@string/lunchAlarmTitle"
         			android:defaultValue="12:00"
         			android:summary="@string/lunchAlarmSummary"
-        			android:dependency="alarm" />        			
+        			android:dependency="alarm" />   
+    <CheckBoxPreference 
+        			android:key="use_notification"
+        			android:title="@string/notificationTitle"
+        			android:summary="@string/notificationSummary"	
+        			android:defaultValue="true"
+        			android:dependency="alarm" />		
 </PreferenceScreen>
