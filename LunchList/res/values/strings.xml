@@ -21,5 +21,6 @@
     <string name="summaryAlarm">Check if you want to know when it is time for lunch</string>
     <string name="lunchAlarmTitle">Lunch Alarm Title</string>
     <string name="lunchAlarmSummary">Set your desired time for the lunch alarm</string>
+    <string name="alarmText">Its Time for Lunch!</string>
 
 </resources>
