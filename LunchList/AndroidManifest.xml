@@ -28,6 +28,8 @@
         <activity android:name="EditPreferences"></activity>
         <activity android:name="FeedActivity"></activity>
         <service android:name="FeedService"></service>
+        <service android:name="ListWidgetService"
+            	 android:permission="android.permission.BIND_REMOTEVIEWS"></service>
         <uses-library android:required="true" android:name="com.google.android.maps"/>
         <activity android:name="RestaurantMap"></activity>
         <receiver android:enabled="false" android:name="OnBootReceiver">
