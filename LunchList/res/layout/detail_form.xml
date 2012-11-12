@@ -1,6 +1,49 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<Fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    class="edu.mines.csci498.bwisdom.lunchlist.DetailFragment"
-    android:id="@+id/details"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="wrap_content">
+    
+    <TableLayout android:layout_width="match_parent"
+        		 android:layout_height="wrap_content"
+       			 android:stretchColumns="1"
+      		     android:shrinkColumns="1">
+      		     
+    	<TableRow>
+            <TextView android:text="@string/name"/>
+            <EditText android:id="@+id/name" />
+        </TableRow>
+        
+        <TableRow>
+            <TextView android:text="@string/address"/>
+            <EditText android:id="@+id/addr"/>
+        </TableRow>
+        
+        <TableRow>
+            <TextView android:text="@string/type" /> 
+            <RadioGroup android:id="@+id/types">
+            	<RadioButton android:id="@+id/takeout"
+            	   			 android:text="@string/takeout"
+            	    		 android:checked="true" />
+            	<RadioButton android:id="@+id/sit_down"
+            	   			 android:text="@string/sit_down" />
+            	<RadioButton android:id="@+id/delivery"
+            	  		     android:text="@string/delivery" /> 
+            </RadioGroup> 
+        </TableRow>
+        <TableRow>
+            <TextView android:text="@string/locationTitle" />
+            <TextView android:id="@+id/location"
+                	  android:text="@string/notSet" />
+        </TableRow>
+        <EditText android:id="@+id/notes"
+              	  android:inputType="textMultiLine"
+              	  android:gravity="top"
+                  android:lines="2"
+              	  android:scrollHorizontally="false"
+                  android:maxLines="2"
+                  android:hint="Notes" />
+        
+        <EditText android:id="@+id/feed"
+            	  android:hint="Feed URL" />
+        
+    </TableLayout>
+</ScrollView>
