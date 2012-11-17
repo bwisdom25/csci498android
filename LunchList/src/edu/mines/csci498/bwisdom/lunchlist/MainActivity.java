@@ -1,8 +1,10 @@
 package edu.mines.csci498.bwisdom.lunchlist;
 
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 public class MainActivity extends FragmentActivity implements LunchFragment.OnRestaurantListener {
 	
@@ -26,7 +28,21 @@ public class MainActivity extends FragmentActivity implements LunchFragment.OnRe
 			i.putExtra(ID_EXTRA, String.valueOf(id));
 			startActivity(i);
 		} else {
-		//do something here!
+			FragmentManager fragMgr = getSupportFragmentManager();
+			DetailFragment details = (DetailFragment)fragMgr.findFragmentById(R.id.details);
+			
+			if(details == null) {
+				details = DetailFragment.newInstance(id);
+				
+				FragmentTransaction xaction = fragMgr.beginTransaction();
+				
+				xaction.add(R.id.details, details);
+				xaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+				xaction.addToBackStack(null);
+				xaction.commit();
+			} else {
+				details.loadRestaurant(String.valueOf(id));
+			}
 		}
 	} 
 }
