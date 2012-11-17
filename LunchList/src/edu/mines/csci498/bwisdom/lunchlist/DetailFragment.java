@@ -91,17 +91,13 @@ public class DetailFragment extends Fragment {
 		
 		setHasOptionsMenu(true);
 	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
 		
-		helper = new RestaurantHelper(getActivity());
-		restaurantId = getActivity().getIntent().getStringExtra(MainActivity.ID_EXTRA);
-		
-		if(restaurantId !=null) {
-			load();
+	private RestaurantHelper getHelper() {
+		if(helper == null) {
+			helper = new RestaurantHelper(getActivity());
 		}
+		
+		return helper;
 	}
 	
 	@Override
@@ -241,24 +237,24 @@ public class DetailFragment extends Fragment {
 	}
 
 	private void load() {
-		Cursor c = helper.getById(restaurantId);
+		Cursor c = getHelper().getById(restaurantId);
 
 		c.moveToFirst();
-		name.setText(helper.getName(c));
-		address.setText(helper.getAddress(c));
-		notes.setText(helper.getName(c));
-		feed.setText(helper.getFeed(c));
+		name.setText(getHelper().getName(c));
+		address.setText(getHelper().getAddress(c));
+		notes.setText(getHelper().getName(c));
+		feed.setText(getHelper().getFeed(c));
 
-		if(helper.getType(c).equals("sit_down")){
+		if(getHelper().getType(c).equals("sit_down")){
 			types.check(R.id.sit_down);
-		}else if(helper.getType(c).equals("takeout")){
+		}else if(getHelper().getType(c).equals("takeout")){
 			types.check(R.id.takeout);
 		}else{
 			types.check(R.id.delivery);
 		}
 
-		latitude = helper.getLatitude(c);
-		longitude = helper.getLongitude(c);
+		latitude = getHelper().getLatitude(c);
+		longitude = getHelper().getLongitude(c);
 
 		location.setText(String.valueOf(helper.getLatitude(c)) + ", " + String.valueOf(helper.getLongitude(c)));
 
