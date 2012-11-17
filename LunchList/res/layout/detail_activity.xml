@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     class="edu.mines.csci498.bwisdom.lunchlist.DetailFragment"
     android:id="@+id/details"
     android:layout_width="match_parent"
