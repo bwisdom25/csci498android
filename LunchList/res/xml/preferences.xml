@@ -21,5 +21,11 @@
         			android:title="@string/notificationTitle"
         			android:summary="@string/notificationSummary"	
         			android:defaultValue="true"
+        			android:dependency="alarm" />
+    <RingtonePreference
+        			android:key="alarm_ringtone"
+        			android:title="Alarm Ringtone"
+        			android:summary="Indicate the ringtone to play when it is lunchtime"
+        			android:showSilent="true"
         			android:dependency="alarm" />		
 </PreferenceScreen>
