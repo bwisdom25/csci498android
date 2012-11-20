@@ -49,6 +49,7 @@
                 	   android:resource="@xml/widget_provider" />
         </receiver>
         <service android:name="WidgetService"></service>
+        <activity android:name="HelpPage"></activity>
     </application>
 
 </manifest>
