@@ -9,6 +9,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -146,9 +147,15 @@ public class DetailFragment extends Fragment {
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
+		
 		if(restaurantId == null ) {
+			Log.d("DetailFragment","restaurntID is NULL");
 			menu.findItem(R.id.location).setEnabled(false);
 			menu.findItem(R.id.map).setEnabled(false);
+		}
+		
+		if(isTelephonyAvailable()) {
+			menu.findItem(R.id.call).setEnabled(true);
 		}
 
 	}
@@ -188,6 +195,12 @@ public class DetailFragment extends Fragment {
 
 			return true;
 
+		} else if (item.getItemId() == R.id.call) {
+			String toDial = "tel:" + phone.getText().toString();
+			
+			if(toDial.length() > 4 ) {
+				startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(toDial)));
+			}
 		} else if(item.getItemId() == R.id.help) {
 			startActivity(new Intent(getActivity(),HelpPage.class));
 		}
