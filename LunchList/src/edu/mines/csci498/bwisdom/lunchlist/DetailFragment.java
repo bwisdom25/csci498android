@@ -30,6 +30,7 @@ public class DetailFragment extends Fragment {
 	
 	EditText name = null;
 	EditText address = null;
+	EditText phone = null;
 	EditText notes = null;
 	EditText feed = null;
 	TextView location = null;
@@ -108,6 +109,7 @@ public class DetailFragment extends Fragment {
 
 		name = (EditText) getActivity().findViewById(R.id.name);
 		address = (EditText) getActivity().findViewById(R.id.addr);
+		phone = (EditText) getActivity().findViewById(R.id.phone);
 		types = (RadioGroup) getActivity().findViewById(R.id.types);
 		notes = (EditText) getActivity().findViewById(R.id.notes);
 		feed = (EditText) getActivity().findViewById(R.id.feed);
@@ -131,6 +133,7 @@ public class DetailFragment extends Fragment {
 
 		state.putString("name", name.getText().toString());
 		state.putString("address", address.getText().toString());
+		state.putString("phone", phone.getText().toString());
 		state.putInt("type", types.getCheckedRadioButtonId());
 		state.putString("notes", notes.getText().toString());
 	}
@@ -228,7 +231,8 @@ public class DetailFragment extends Fragment {
 				helper.insert(name.getText().toString(),
 							  address.getText().toString(),
 							  type, notes.getText().toString(),
-							  feed.getText().toString());
+							  feed.getText().toString(),
+							  phone.getText().toString());
 			} else {
 				helper.update(restaurantId,name.getText().toString(),
 						  address.getText().toString(),
@@ -244,6 +248,7 @@ public class DetailFragment extends Fragment {
 		c.moveToFirst();
 		name.setText(getHelper().getName(c));
 		address.setText(getHelper().getAddress(c));
+		phone.setText(getHelper().getPhone(c));
 		notes.setText(getHelper().getName(c));
 		feed.setText(getHelper().getFeed(c));
 
