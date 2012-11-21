@@ -237,7 +237,8 @@ public class DetailFragment extends Fragment {
 				helper.update(restaurantId,name.getText().toString(),
 						  address.getText().toString(),
 						  type, notes.getText().toString(),
-						  feed.getText().toString());
+						  feed.getText().toString(),
+						  phone.getText().toString());
 			}
 		}
 	}
@@ -275,6 +276,10 @@ public class DetailFragment extends Fragment {
 		helper.close();
 		locMgr.removeUpdates(onLocationChange);
 		super.onPause();
+	}
+	
+	private boolean isTelephonyAvailable() {
+		return getActivity().getPackageManager().hasSystemFeature("android.hardware.telephony");
 	}
 
 }
